@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
 const NoteApp = () => {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(JSON.parse(localStorage.getItem("notes")) || []);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes))
+  });
 
   const addNote = (e) => {
     e.preventDefault();
@@ -44,6 +48,11 @@ const NoteApp = () => {
 const App = ({ initialCount = 0 }) => {
   const [ count, setCount ] = useState(initialCount);
   const [ text, setText ] = useState('');
+
+  useEffect(() => {
+    console.log('useEffect ran')
+    document.title = count
+  });
 
   return (
     <div>
