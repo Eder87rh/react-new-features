@@ -29,11 +29,7 @@ const NoteApp = () => {
     <div>
       <h1>Notes</h1>
       {notes.map(note => (
-        <div key={note.title}>
-          <h3>{note.title}</h3>
-          <p>{note.body}</p>
-          <button onClick={() => removeNote(note.title)}>x</button>
-        </div>
+        <Note key={note.title} note={note} removeNote={removeNote} />
       ))}
       <p>Add note</p>
       <form onSubmit={addNote}>
@@ -45,22 +41,20 @@ const NoteApp = () => {
   )
 }
 
-const App = ({ initialCount = 0 }) => {
-  const [ count, setCount ] = useState(initialCount);
-  const [ text, setText ] = useState('');
-
+const Note = ({ note, removeNote }) => {
   useEffect(() => {
-    console.log('useEffect ran')
-    document.title = count
-  });
+    console.log("setting up effect");
+
+    return () => {
+      console.log("Cleaning up effect!")
+    }
+  }, []);
 
   return (
     <div>
-      <p>The current { text || 'count' } is { count }</p>
-      <button onClick={() => setCount(count + 1)} >+1</button>
-      <button onClick={() => setCount(count - 1)}> -1</button>
-      <button onClick={() => setCount(initialCount)}>reset</button> 
-      <input type="text" value={text} onChange={(e) => setText(e.target.value)}/>
+      <h3>{note.title}</h3>
+      <p>{note.body}</p>
+      <button onClick={() => removeNote(note.title)}>x</button>
     </div>
   )
 }
